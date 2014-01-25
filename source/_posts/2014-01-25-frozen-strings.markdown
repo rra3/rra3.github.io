@@ -6,7 +6,7 @@ comments: true
 categories: [ruby,rails]
 ---
 ### Frozen String spookiness
-Last week I was working on a rails project for work when I encountered something funky and slightly maddening: frozen strings. I was attempting to slice selected values from the HTTP request hash:
+Last week I was working on a rails project for work when I encountered something funky and slightly maddening. I was attempting to slice selected values from the HTTP request hash:
 
 ``` ruby plucking values from the Rails Request object
     allowed_keys = [
@@ -28,7 +28,8 @@ Last week I was working on a rails project for work when I encountered something
 ...when the controller evaluated this code, it would simply stop..."freeze" if you will, emitting no errors. After some searching I discovered that Rails freezes the hash keys of core extensions. At first blush, it seemed that there was no way around the issue - no matter how I sliced or diced it, if I attempted to use the same strings in another hash, the app would choke on them. Even if you attempt a ".dup" on the string, the object's frozen flag is copied to the new string object.
 
 ### What about symbols?
-Symbols are distinctly different object types in Ruby. Since rails offers "with indifferent access" on hashes for core extensions, this works perfectly:
+A Ruby symbol is a distinctly different object type from String in Ruby, but in rails they are interchangable with them for hash lookups Since rails offers [hash_with_indifferent_access](https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb?source=cc) on hashes for core extensions, this works perfectly:
+
 
 ``` ruby use symbols to access data on the request instead of strings. 
     allowed_keys = [
