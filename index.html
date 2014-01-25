@@ -138,7 +138,7 @@
 
 <h3>What about symbols?</h3>
 
-<p>A Ruby symbol is a distinctly different object type from String in Ruby, but in rails they are interchangable with strings for hash keys, since rails offers <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb?source=cc">hash_with_indifferent_access</a> on hashes for core extensions, this works perfectly:</p>
+<p>A Ruby symbol is a distinctly different object type from String in Ruby, but in Rails they are interchangable with strings for hash keys &ndash; at least for the HTTP Request object.  For this and other core extensions, Rails creates any associated hashes with <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb?source=cc">hash_with_indifferent_access</a>. This makes the fix for the above code very straight forward:</p>
 
 <figure class='code'><figcaption><span>use symbols to access data on the request instead of strings. </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -170,6 +170,17 @@
 </span><span class='line'>    <span class="ss">:CONTENT_LENGTH</span>
 </span><span class='line'>  <span class="o">]</span>
 </span><span class='line'> <span class="nb">self</span><span class="o">.</span><span class="n">visitor_track</span> <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="o">*</span><span class="n">allowed_keys</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&hellip;to give your own hashes this handy behavior, just instantiate the hash using the ActiveSupport hash constructor:</p>
+
+<figure class='code'><figcaption><span>Endow your own hashes with &#8220;indifferent access&#8221;</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">foo_hash</span> <span class="o">=</span> <span class="ss">ActiveSupport</span><span class="p">:</span><span class="ss">:HashWithIndifferentAccess</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">foo</span><span class="o">[</span><span class="s2">&quot;bar&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;baz&quot;</span>
+</span><span class='line'><span class="n">foo</span><span class="o">[</span><span class="ss">:bar</span><span class="o">]</span> <span class="c1"># =&gt; returns &quot;baz&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | confessions of a ruby addict]]></title>
   <link href="http://rra3.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://rra3.github.io/"/>
-  <updated>2014-01-25T18:26:53-05:00</updated>
+  <updated>2014-01-25T18:37:19-05:00</updated>
   <id>http://rra3.github.io/</id>
   <author>
     <name><![CDATA[Robert Arnold]]></name>
@@ -46,7 +46,7 @@
 
 <h3>What about symbols?</h3>
 
-<p>A Ruby symbol is a distinctly different object type from String in Ruby, but in rails they are interchangable with strings for hash keys, since rails offers <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb?source=cc">hash_with_indifferent_access</a> on hashes for core extensions, this works perfectly:</p>
+<p>A Ruby symbol is a distinctly different object type from String in Ruby, but in Rails they are interchangable with strings for hash keys &ndash; at least for the HTTP Request object.  For this and other core extensions, Rails creates any associated hashes with <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb?source=cc">hash_with_indifferent_access</a>. This makes the fix for the above code very straight forward:</p>
 
 <p>``` ruby use symbols to access data on the request instead of strings.</p>
 
@@ -68,6 +68,14 @@
 
 <p> self.visitor_track = self.env.slice(*allowed_keys)
 ```</p>
+
+<p>&hellip;to give your own hashes this handy behavior, just instantiate the hash using the ActiveSupport hash constructor:</p>
+
+<p><code>ruby Endow your own hashes with "indifferent access"
+foo_hash = ActiveSupport::HashWithIndifferentAccess.new
+foo["bar"] = "baz"
+foo[:bar] # =&gt; returns "baz"
+</code></p>
 ]]></content>
   </entry>
   
