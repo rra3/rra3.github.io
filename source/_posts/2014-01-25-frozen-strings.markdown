@@ -3,7 +3,7 @@ layout: post
 title: "Frozen Strings"
 date: 2014-01-25 16:34:44 -0500
 comments: true
-categories: ruby
+categories: [ruby,rails]
 ---
 ### Frozen String spookiness
 Last week I was working on a rails project for work when I encountered something funky and slightly maddening: frozen strings. I was attempting to slice selected values from the HTTP request hash:
