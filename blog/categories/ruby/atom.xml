@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | confessions of a ruby addict]]></title>
   <link href="http://rra3.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://rra3.github.io/"/>
-  <updated>2014-01-25T17:32:19-05:00</updated>
+  <updated>2014-01-25T18:24:18-05:00</updated>
   <id>http://rra3.github.io/</id>
   <author>
     <name><![CDATA[Robert Arnold]]></name>
@@ -20,7 +20,7 @@
     <id>http://rra3.github.io/blog/2014/01/25/frozen-strings</id>
     <content type="html"><![CDATA[<h3>Frozen String spookiness</h3>
 
-<p>Last week I was working on a rails project for work when I encountered something funky and slightly maddening: frozen strings. I was attempting to slice selected values from the HTTP request hash:</p>
+<p>Last week I was working on a rails project for work when I encountered something funky and slightly maddening. I was attempting to slice selected values from the HTTP request hash:</p>
 
 <p>``` ruby plucking values from the Rails Request object</p>
 
@@ -46,7 +46,7 @@
 
 <h3>What about symbols?</h3>
 
-<p>Symbols are distinctly different object types in Ruby. Since rails offers &ldquo;with indifferent access&rdquo; on hashes for core extensions, this works perfectly:</p>
+<p>A Ruby symbol is a distinctly different object type from String in Ruby, but in rails they are interchangable with them for hash lookups Since rails offers <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb?source=cc">hash_with_indifferent_access</a> on hashes for core extensions, this works perfectly:</p>
 
 <p>``` ruby use symbols to access data on the request instead of strings.</p>
 

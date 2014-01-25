@@ -9,7 +9,7 @@
   <meta name="author" content="Robert Arnold">
 
   
-  <meta name="description" content="Frozen String spookiness Last week I was working on a rails project for work when I encountered something funky and slightly maddening: frozen &hellip;">
+  <meta name="description" content="Frozen String spookiness Last week I was working on a rails project for work when I encountered something funky and slightly maddening. I was &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,7 +96,7 @@
 
 <div class="entry-content"><h3>Frozen String spookiness</h3>
 
-<p>Last week I was working on a rails project for work when I encountered something funky and slightly maddening: frozen strings. I was attempting to slice selected values from the HTTP request hash:</p>
+<p>Last week I was working on a rails project for work when I encountered something funky and slightly maddening. I was attempting to slice selected values from the HTTP request hash:</p>
 
 <figure class='code'><figcaption><span>plucking values from the Rails Request object</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -135,7 +135,7 @@
 
 <h3>What about symbols?</h3>
 
-<p>Symbols are distinctly different object types in Ruby. Since rails offers &ldquo;with indifferent access&rdquo; on hashes for core extensions, this works perfectly:</p>
+<p>A Ruby symbol is a distinctly different object type from String in Ruby, but in rails they are interchangable with them for hash lookups Since rails offers <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb?source=cc">hash_with_indifferent_access</a> on hashes for core extensions, this works perfectly:</p>
 
 <figure class='code'><figcaption><span>use symbols to access data on the request instead of strings. </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
