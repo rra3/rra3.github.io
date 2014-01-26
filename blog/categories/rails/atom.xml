@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | confessions of a ruby addict]]></title>
   <link href="http://rra3.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://rra3.github.io/"/>
-  <updated>2014-01-25T18:37:19-05:00</updated>
+  <updated>2014-01-25T19:17:10-05:00</updated>
   <id>http://rra3.github.io/</id>
   <author>
     <name><![CDATA[Robert Arnold]]></name>
@@ -73,8 +73,8 @@
 
 <p><code>ruby Endow your own hashes with "indifferent access"
 foo_hash = ActiveSupport::HashWithIndifferentAccess.new
-foo["bar"] = "baz"
-foo[:bar] # =&gt; returns "baz"
+foo_hash["bar"] = "baz"
+foo_hash[:bar] # =&gt; returns "baz"
 </code></p>
 ]]></content>
   </entry>
