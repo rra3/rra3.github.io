@@ -28,7 +28,7 @@ Last week I was working on a rails project for work when I encountered something
 ...when the controller evaluated this code, it would simply stop..."freeze" if you will, emitting no errors. After some searching I discovered that Rails freezes the hash keys of core extensions. At first blush, it seemed that there was no way around the issue - no matter how I sliced or diced it, if I attempted to use the same strings in another hash, the app would choke on them. Even if you attempt a ".dup" on the string, the object's frozen flag is copied to the new string object.
 
 ### What about symbols?
-A Ruby symbol is a distinctly different object type from String in Ruby, but in rails they are interchangable with strings for hash keys, since rails offers [hash_with_indifferent_access](https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb?source=cc) on hashes for core extensions, this works perfectly:
+A Ruby symbol is a distinctly different object type from String in Ruby, but in Rails they are interchangable with strings for hash keys - at least for the HTTP Request object.  For this and other core extensions, Rails creates any associated hashes with [hash_with_indifferent_access](https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb?source=cc). This makes the fix for the above code very straight forward:
 
 
 ``` ruby use symbols to access data on the request instead of strings. 
@@ -47,5 +47,13 @@ A Ruby symbol is a distinctly different object type from String in Ruby, but in 
         :CONTENT_LENGTH
       ]
  self.visitor_track = self.env.slice(*allowed_keys)
+```
+
+...to give your own hashes this handy behavior, just instantiate the hash using the ActiveSupport hash constructor: 
+
+``` ruby Endow your own hashes with "indifferent access"
+foo_hash = ActiveSupport::HashWithIndifferentAccess.new
+foo_hash["bar"] = "baz"
+foo_hash[:bar] # => returns "baz"
 ```
 
