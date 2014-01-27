@@ -131,7 +131,28 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>&hellip;when the controller evaluated this code, it would simply stop&hellip;&ldquo;freeze&rdquo; if you will, emitting no errors. After some searching I discovered that Rails freezes the hash keys of core extensions. At first blush, it seemed that there was no way around the issue &ndash; no matter how I sliced or diced it, if I attempted to use the same strings in another hash, the app would choke on them. Even if you attempt a &ldquo;.dup&rdquo; on the string, the object&rsquo;s frozen flag is copied to the new string object.</p>
+<p>&hellip;when the controller evaluated this code, it would simply stop&hellip;&ldquo;freeze&rdquo; if you will, emitting no errors. After some searching I discovered that Rails freezes the hash keys of core extensions. At first blush, it seemed that there was no way around the issue &ndash; no matter how I sliced or diced it, if I attempted to use the same strings in another hash, the app would choke on them. Even if you attempt a &ldquo;.dup&rdquo; on the string, the object&rsquo;s frozen flag is copied to the new string object. You can check if an object is frozen by sending the #frozen? message (and an object can be frozen with #freeze!):</p>
+
+<figure class='code'><figcaption><span>plucking values from the Rails Request object</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p247</span> <span class="p">:</span><span class="mo">002</span> <span class="o">&gt;</span> <span class="n">foo</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;one&quot;</span><span class="p">,</span><span class="s2">&quot;two&quot;</span><span class="p">,</span><span class="s2">&quot;three&quot;</span><span class="o">]</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">,</span> <span class="s2">&quot;three&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p247</span> <span class="p">:</span><span class="mo">003</span> <span class="o">&gt;</span> <span class="n">foo</span><span class="o">.</span><span class="n">collect!</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">.</span><span class="n">freeze</span><span class="p">}</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">,</span> <span class="s2">&quot;three&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">-</span><span class="n">p247</span> <span class="p">:</span><span class="mo">004</span> <span class="o">&gt;</span> <span class="n">foo</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">v</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">v</span><span class="o">.</span><span class="n">frozen?</span><span class="p">}</span>
+</span><span class='line'><span class="kp">true</span>
+</span><span class='line'><span class="kp">true</span>
+</span><span class='line'><span class="kp">true</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">,</span> <span class="s2">&quot;three&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>What about symbols?</h3>
 

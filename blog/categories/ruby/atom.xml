@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | confessions of a ruby addict]]></title>
   <link href="http://rra3.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://rra3.github.io/"/>
-  <updated>2014-01-26T20:56:42-05:00</updated>
+  <updated>2014-01-27T06:24:34-05:00</updated>
   <id>http://rra3.github.io/</id>
   <author>
     <name><![CDATA[Robert Arnold]]></name>
@@ -41,8 +41,19 @@
 </code></pre>
 
 <p> self.visitor_track = self.env.slice(*allowed_keys)
-```
-&hellip;when the controller evaluated this code, it would simply stop&hellip;&ldquo;freeze&rdquo; if you will, emitting no errors. After some searching I discovered that Rails freezes the hash keys of core extensions. At first blush, it seemed that there was no way around the issue &ndash; no matter how I sliced or diced it, if I attempted to use the same strings in another hash, the app would choke on them. Even if you attempt a &ldquo;.dup&rdquo; on the string, the object&rsquo;s frozen flag is copied to the new string object.</p>
+<code>
+...when the controller evaluated this code, it would simply stop..."freeze" if you will, emitting no errors. After some searching I discovered that Rails freezes the hash keys of core extensions. At first blush, it seemed that there was no way around the issue - no matter how I sliced or diced it, if I attempted to use the same strings in another hash, the app would choke on them. Even if you attempt a ".dup" on the string, the object's frozen flag is copied to the new string object. You can check if an object is frozen by sending the #frozen? message (and an object can be frozen with #freeze!):
+</code>
+2.0.0-p247 :002 > foo = [&ldquo;one&rdquo;,&ldquo;two&rdquo;,&ldquo;three&rdquo;]
+ => [&ldquo;one&rdquo;, &ldquo;two&rdquo;, &ldquo;three&rdquo;]
+2.0.0-p247 :003 > foo.collect! {|x| x.freeze}
+ => [&ldquo;one&rdquo;, &ldquo;two&rdquo;, &ldquo;three&rdquo;]
+2.0.0-p247 :004 > foo.each {|v| puts v.frozen?}
+true
+true
+true
+ => [&ldquo;one&rdquo;, &ldquo;two&rdquo;, &ldquo;three&rdquo;]
+```</p>
 
 <h3>What about symbols?</h3>
 
