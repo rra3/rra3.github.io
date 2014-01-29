@@ -4,7 +4,7 @@
   <title><![CDATA[confessions of a ruby addict]]></title>
   <link href="http://rra3.github.io/atom.xml" rel="self"/>
   <link href="http://rra3.github.io/"/>
-  <updated>2014-01-28T20:12:23-05:00</updated>
+  <updated>2014-01-28T20:16:50-05:00</updated>
   <id>http://rra3.github.io/</id>
   <author>
     <name><![CDATA[Robert Arnold]]></name>
@@ -12,15 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Just a Test]]></title>
-    <link href="http://rra3.github.io/blog/2014/01/28/just-a-test/"/>
-    <updated>2014-01-28T20:07:47-05:00</updated>
-    <id>http://rra3.github.io/blog/2014/01/28/just-a-test</id>
-    <content type="html"><![CDATA[<p>lolwut just testing.</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Frozen Strings]]></title>
