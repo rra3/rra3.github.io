@@ -4,7 +4,7 @@
   <title><![CDATA[confessions of a ruby addict]]></title>
   <link href="http://rra3.github.io/atom.xml" rel="self"/>
   <link href="http://rra3.github.io/"/>
-  <updated>2014-01-28T20:16:50-05:00</updated>
+  <updated>2014-03-23T09:47:56-04:00</updated>
   <id>http://rra3.github.io/</id>
   <author>
     <name><![CDATA[Robert Arnold]]></name>
@@ -12,6 +12,80 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Poor Man's Mongo Interface for Ruby]]></title>
+    <link href="http://rra3.github.io/blog/2014/03/22/poor-mans-mongo-interface-for-ruby/"/>
+    <updated>2014-03-22T11:53:19-04:00</updated>
+    <id>http://rra3.github.io/blog/2014/03/22/poor-mans-mongo-interface-for-ruby</id>
+    <content type="html"><![CDATA[<blockquote><p>We will encourage you to develop the three great virtues of a <em>programmer: laziness, impatience</em>, and hubris.
+&ndash; Larry Wall, Programming Perl</p></blockquote>
+
+<p>I&rsquo;ve been working in Mongo a lot lately. Initially jazzed by the thrill of using javascript for the query language, I&rsquo;ve since learned that the queries themselves can quite quickly become verbose and ungainly to work with from within the confines of the little CLI mongo shell environment. For longer queries, you do have the option of writing standalone js scripts, resorting to the mongo shell prompt only for smaller, simpler queries. It feels much more natural to think of mongo queries as tiny scripts than something analogous to a SQL query. In fact, Mongo <a href="http://docs.mongodb.org/manual/tutorial/write-scripts-for-the-mongo-shell/">exposes many javascript equivalents</a> that allows you to do just about anything in native javascript that you can do manually from the mongo shell prompt.  After creating and saving your javascript file, you can then pass the saved file directly to mongo:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> mongo [options] [db address] [file names (ending in .js)]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I use vim, and I was delighted to learn that while crafting an involved query I could test it quickly by mapping a key to something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  :w !mongo</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Why does this work? Because mongo accepts input from stdin. In your life as a programmer you often have to make compromises for the sake of pragmatism. It can often be quicker to open a system call to external programs rather than taking the time to learn an new api. Depending upon the size and nature of the task, this can be preferable. What is the cost/benefit ratio to doing something in pure Ruby versus delegating to an external program? You have to make that call, but for small tasks, leaning on external tools and programs can be a blessing &ndash; especially those that accept stdin. In my former life as a perl programmer, I learned to open a filehandle directly against a subprocess. This was handy for programs that accept data on stdin, such as sendmail:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="nb">open</span><span class="p">(</span><span class="n">SENDMAIL</span><span class="p">,</span> <span class="s">&quot;|/usr/sbin/sendmail -oi -t  -odq&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="ow">or</span> <span class="nb">die</span> <span class="s">&quot;cannot fork for sendmail: $!\n&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">print</span> <span class="n">SENDMAIL</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;EOF&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="n">From:</span> <span class="n">Bob</span> <span class="sr">&lt;bob\@localhost&gt;</span>
+</span><span class='line'><span class="n">To:</span> <span class="n">Joe</span> <span class="sr">&lt;Joe\@somewherez&gt;</span>
+</span><span class='line'><span class="n">Subject:</span> <span class="n">Lunch</span><span class="p">?</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Hey</span> <span class="n">Joe</span><span class="p">,</span> <span class="n">whaddya</span> <span class="n">know</span><span class="p">?</span> <span class="n">Got</span> <span class="n">lunch</span> <span class="n">plans</span><span class="p">?</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">EOF</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&hellip;I also love heredocs &ndash; which as you can see above, allow me to write directly to the open SENDMAIL filehandle. Ruby, of course, offers the same flexibility with filehandles. I had nearly forgotten about this until recently when I needed to send an email report from data I had stored in Mongo. I wanted to write the report generator in Ruby, but also didn&rsquo;t want to bother learning a new api for interfacing with Mongo when I had all of my necessary scripts at the ready as javascript. That&rsquo;s when I recalled the above sendmail trick. Here&rsquo;s a variation in Ruby for writing queries to mongo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>   <span class="k">def</span> <span class="nf">fork_mongo</span>
+</span><span class='line'>    <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;|mongo --quiet -u </span><span class="si">#{</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;MONGO_USER&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2"> -p </span><span class="si">#{</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;MONGO_PW&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2"> your.mongo.server:27017/some_db&quot;</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">p</span><span class="o">|</span>
+</span><span class='line'>      <span class="nb">p</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;db.orders.aggregate({$match: {status: &quot;A}&quot;}, {$group: {_id: &quot;$cust_id&quot;, total: {$sum: &quot;$amount&quot;}}})&#39;</span><span class="p">)</span>
+</span><span class='line'>      <span class="nb">p</span><span class="o">.</span><span class="n">close_write</span>
+</span><span class='line'>      <span class="nb">p</span><span class="o">.</span><span class="n">read</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that the parameter passed to the open method is preceded by a &ldquo;|&rdquo; symbol, which indicates you are opening a subprocess. The syntax may look strange, but if you have any familiarity with unix pipes, it makes more sense. I&rsquo;ve opened the IO stream here in write mode (&ldquo;w+&rdquo;) as I wish to write my query to mongo. It turns out this also gives me read access to the stream, so you can be fancy and say that the IO stream is <em>duplexed</em>. For further information on opening IO streams with open, refer to the documenation on <a href="http://ruby-doc.org/core-2.1.1/Kernel.html#method-i-open">Kernel#open</a>.</p>
+
+<p>I&rsquo;ve hardcoded the javascript into the write method to emphasize the point, but you could make this much more dynamic with variable interpolation. Heredocs are nice because you don&rsquo;t have to fuss with quoting and you can retain formatting for readability.</p>
+
+<p>One potential drawback is that the output will be returned in string format, so you will have to parse/split/coerce that into whatever format you need, which &ndash; depending upon your needs, may be more trouble than necessary, so YMMV.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Frozen Strings]]></title>

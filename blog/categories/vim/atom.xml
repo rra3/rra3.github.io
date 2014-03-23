@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Ruby | confessions of a ruby addict]]></title>
-  <link href="http://rra3.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Vim | confessions of a ruby addict]]></title>
+  <link href="http://rra3.github.io/blog/categories/vim/atom.xml" rel="self"/>
   <link href="http://rra3.github.io/"/>
   <updated>2014-03-23T09:47:56-04:00</updated>
   <id>http://rra3.github.io/</id>
@@ -69,83 +69,6 @@ end
 <p>I&rsquo;ve hardcoded the javascript into the write method to emphasize the point, but you could make this much more dynamic with variable interpolation. Heredocs are nice because you don&rsquo;t have to fuss with quoting and you can retain formatting for readability.</p>
 
 <p>One potential drawback is that the output will be returned in string format, so you will have to parse/split/coerce that into whatever format you need, which &ndash; depending upon your needs, may be more trouble than necessary, so YMMV.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Frozen Strings]]></title>
-    <link href="http://rra3.github.io/blog/2014/01/25/frozen-strings/"/>
-    <updated>2014-01-25T16:34:44-05:00</updated>
-    <id>http://rra3.github.io/blog/2014/01/25/frozen-strings</id>
-    <content type="html"><![CDATA[<h3>Frozen String spookiness</h3>
-
-<p>Last week I was working on a rails project for work when I encountered something funky and slightly maddening. I was attempting to slice selected values from the HTTP request hash:</p>
-
-<p>``` ruby plucking values from the Rails Request object</p>
-
-<pre><code>allowed_keys = [
-    "REMOTE_HOST",
-    "REMOTE_ADDR",
-    "HTTP_REFERER",
-    "ORIGINAL_FULLPATH",
-    "REQUEST_METHOD",
-    "REQUEST_URI",
-    "HTTP_HOST",
-    "HTTP_ORIGIN",
-    "HTTP_USER_AGENT",
-    "REQUEST_PATH",
-    "QUERY_STRING",
-    "CONTENT_LENGTH"
-  ]
-</code></pre>
-
-<p> self.visitor_track = self.env.slice(*allowed_keys)
-<code>
-...when the controller evaluated this code, it would simply stop..."freeze" if you will, emitting no errors. After some searching I discovered that Rails freezes the hash keys of core extensions. At first blush, it seemed that there was no way around the issue - no matter how I sliced or diced it, if I attempted to use the same strings in another hash, the app would choke on them. Even if you attempt a ".dup" on the string, the object's frozen flag is copied to the new string object. You can check if an object is frozen by sending the #frozen? message (and an object can be frozen with #freeze!):
-</code>
-2.0.0-p247 :002 > foo = [&ldquo;one&rdquo;,&ldquo;two&rdquo;,&ldquo;three&rdquo;]
- => [&ldquo;one&rdquo;, &ldquo;two&rdquo;, &ldquo;three&rdquo;]
-2.0.0-p247 :003 > foo.collect! {|x| x.freeze}
- => [&ldquo;one&rdquo;, &ldquo;two&rdquo;, &ldquo;three&rdquo;]
-2.0.0-p247 :004 > foo.each {|v| puts v.frozen?}
-true
-true
-true
- => [&ldquo;one&rdquo;, &ldquo;two&rdquo;, &ldquo;three&rdquo;]
-```</p>
-
-<h3>What about symbols?</h3>
-
-<p>A Ruby symbol is a distinctly different object type from String in Ruby, but in Rails they are interchangable with strings for hash keys &ndash; at least for the HTTP Request object.  For this and other core extensions, Rails creates any associated hashes with <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/hash_with_indifferent_access.rb?source=cc">hash_with_indifferent_access</a>. This makes the fix for the above code very straight forward:</p>
-
-<p>``` ruby use symbols to access data on the request instead of strings.</p>
-
-<pre><code>allowed_keys = [
-    :REMOTE_HOST,
-    :REMOTE_ADDR,
-    :HTTP_REFERER,
-    :ORIGINAL_FULLPATH,
-    :REQUEST_METHOD,
-    :REQUEST_URI,
-    :HTTP_HOST,
-    :HTTP_ORIGIN,
-    :HTTP_USER_AGENT,
-    :REQUEST_PATH,
-    :QUERY_STRING,
-    :CONTENT_LENGTH
-  ]
-</code></pre>
-
-<p> self.visitor_track = self.env.slice(*allowed_keys)
-```</p>
-
-<p>&hellip;to give your own hashes this handy behavior, just instantiate the hash using the ActiveSupport hash constructor:</p>
-
-<p><code>ruby Endow your own hashes with "indifferent access"
-foo_hash = ActiveSupport::HashWithIndifferentAccess.new
-foo_hash["bar"] = "baz"
-foo_hash[:bar] # =&gt; returns "baz"
-</code></p>
 ]]></content>
   </entry>
   
