@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Nodejs | confessions of a ruby addict]]></title>
+  <title><![CDATA[Category: Nodejs | script the planet]]></title>
   <link href="http://rra3.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://rra3.github.io/"/>
-  <updated>2014-10-08T22:55:37-04:00</updated>
+  <updated>2014-10-08T23:07:07-04:00</updated>
   <id>http://rra3.github.io/</id>
   <author>
     <name><![CDATA[Robert Arnold]]></name>
