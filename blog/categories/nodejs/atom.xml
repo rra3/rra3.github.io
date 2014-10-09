@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Vim, | confessions of a ruby addict]]></title>
-  <link href="http://rra3.github.io/blog/categories/vim/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Nodejs | confessions of a ruby addict]]></title>
+  <link href="http://rra3.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://rra3.github.io/"/>
   <updated>2014-10-08T22:50:37-04:00</updated>
   <id>http://rra3.github.io/</id>

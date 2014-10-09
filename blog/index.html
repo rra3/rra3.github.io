@@ -9,7 +9,7 @@
   <meta name="author" content="Robert Arnold">
 
   
-  <meta name="description" content="The Poor Man&#8217;s Mongo Interface for Ruby Mar 22nd, 2014 javascript mongodb ruby vim Comments We will encourage you to develop the three great &hellip;">
+  <meta name="description" content="Node syntax checking in vim with JSHint Oct 8th, 2014 nodejs vim, Comments I&rsquo;ve been using syntastic for a while with vim, and recently I& &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,78 @@
     <div id="content">
       
 
+
+  
+  <article class="listing">
+    <header>
+  
+  <h1 class="beta">
+    <a href="/blog/2014/10/08/node-syntax-checking-in-vim-with-jshint/">Node syntax checking in vim with JSHint</a>
+  </h1>
+  
+
+  
+  <div class="meta clearfix">
+    
+
+
+
+
+
+
+
+
+  
+
+
+<time class="pull-left" datetime="2014-10-08T22:37:33-04:00" pubdate data-updated="true"><i class="icon-calendar"></i> Oct 8<span>th</span>, 2014</time>
+    
+
+
+
+  
+  <div class="pull-left">
+    <i class="icon-tags"></i>
+    <ul class="tags unstyled">
+    
+      <li><a href="/blog/categories/nodejs/">nodejs</a></li>
+    
+      <li><a href="/blog/categories/vim,/">vim,</a></li>
+    
+    </ul>
+  </div>
+  
+
+    
+      <a class="pull-right" href="http://rra3.github.io/blog/2014/10/08/node-syntax-checking-in-vim-with-jshint/#disqus_thread">
+        Comments <i class="icon-comment"></i>
+      </a>
+    
+  </div>
+  
+</header>
+
+
+
+
+  <p>I&rsquo;ve been using syntastic for a while with vim, and recently I&rsquo;ve been doing a lot work with a nodejs project, and the default syntax checking for javascript was annoying &ndash; it kept warning me about semi-colons and bad line breaks, which don&rsquo;t really matter much in a node environment. I discovered that if I ran the command :SyntasticInfo while working with a js file, it will tell you want plugin in uses for lint checking the code, which turned out to be <a href="http://jshint.com/">JSHint</a>. The nice thing about jshint is that it you can configure it with a <a href="http://jshint.com/docs/options/">bewildering number of options</a> to suit your needs in a file called &ldquo;.jshintrc&rdquo; which lives in your home directory and is just json. I found the following options turned off the annoying warnings I was getting and made the lint check suitable for node development:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="s2">&quot;asi&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;laxcomma&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;node&quot;</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+  </article>
+  <hr>
 
   
   <article class="listing">

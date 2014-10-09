@@ -9,8 +9,7 @@
   <meta name="author" content="Robert Arnold">
 
   
-  <meta name="description" content="We will encourage you to develop the three great virtues of a programmer: laziness, impatience, and hubris.
-&ndash; Larry Wall, Programming Perl I& &hellip;">
+  <meta name="description" content="I&rsquo;ve been using syntastic for a while with vim, and recently I&rsquo;ve been doing a lot work with a nodejs project, and the default syntax &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +65,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/08/node-syntax-checking-in-vim-with-jshint/">Node Syntax Checking in Vim With JSHint</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-08T22:37:33-04:00" pubdate data-updated="true">Oct 8<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/10/08/node-syntax-checking-in-vim-with-jshint/#disqus_thread"
+             data-disqus-identifier="http://rra3.github.io/blog/2014/10/08/node-syntax-checking-in-vim-with-jshint/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&rsquo;ve been using syntastic for a while with vim, and recently I&rsquo;ve been doing a lot work with a nodejs project, and the default syntax checking for javascript was annoying &ndash; it kept warning me about semi-colons and bad line breaks, which don&rsquo;t really matter much in a node environment. I discovered that if I ran the command :SyntasticInfo while working with a js file, it will tell you want plugin in uses for lint checking the code, which turned out to be <a href="http://jshint.com/">JSHint</a>. The nice thing about jshint is that it you can configure it with a <a href="http://jshint.com/docs/options/">bewildering number of options</a> to suit your needs in a file called &ldquo;.jshintrc&rdquo; which lives in your home directory and is just json. I found the following options turned off the annoying warnings I was getting and made the lint check suitable for node development:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="s2">&quot;asi&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;laxcomma&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;node&quot;</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -329,6 +380,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/10/08/node-syntax-checking-in-vim-with-jshint/">Node Syntax Checking in Vim With JSHint</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/03/22/poor-mans-mongo-interface-for-ruby/">The Poor Man&#8217;s Mongo Interface for Ruby</a>
