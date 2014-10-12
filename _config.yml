@@ -3,10 +3,10 @@
 # ----------------------- #
 
 url: http://rra3.github.io
-title: script the planet
+title: happy cybernetics
 subtitle: if it has an embedded scripting language, i'm interested
 author: Robert Arnold
-simple_search: http://google.com/search
+simple_search: https://duckduckgo.com/search
 description: musings on ruby, javascript, vim and the like...
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
